@@ -6,6 +6,7 @@ WORKDIR /opt/app
 RUN adduser -S app
 COPY api/ .
 RUN npm install
+RUN npm install --save-dev sequelize-cli
 RUN npm install --save pm2
 RUN chown -R app /opt/app
 USER app

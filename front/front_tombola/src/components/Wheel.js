@@ -54,7 +54,8 @@ export default () => {
             setMustSpin(false);
           }}
         />
-        <button className="button2" onClick={handleSpinClick}>
+        <button
+        disabled={creditsRewards > 0 ? false : true} className="button2" onClick={handleSpinClick}>
           Girar la Ruleta
         </button>
         <br />
