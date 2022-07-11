@@ -22,6 +22,23 @@ services:
       # https://stackoverflow.com/a/32785014
       - /usr/src/app/node_modules
 
+  ui:
+    build:
+      context: ./front/front_tombola
+    depends_on:
+      # Our app does not work without our database
+      # so this ensures our database is loaded first
+      - app
+    ports:
+      - '8080:8080'
+    volumes:
+      # Maps our current project directory `.` to
+      # our working directory in the container
+      - ./:/usr/src/ui/
+      # node_modules workaround for volumes
+      # https://stackoverflow.com/a/32785014
+      - /usr/src/ui/node_modules
+
   # This is the configuration for our PostgreSQL database container
   # Note the `postgres` name is important, in out Node app when we refer
   # to  `host: "postgres"` that value is mapped on the network to the 
@@ -40,7 +57,7 @@ services:
       # Standard port for PostgreSQL databases
       - "5432:5432"
     volumes:
-      - addressbook-db:/var/lib/postgresql/data
+      - app-db:/var/lib/postgresql/data
 
   # PostgreSQL pgAdmin panel accessible at http://localhost:16543/
   pgadmin-compose:
@@ -52,3 +69,6 @@ services:
       - "16543:80"
     depends_on:
       - postgres
+
+volumes:
+  app-db:
