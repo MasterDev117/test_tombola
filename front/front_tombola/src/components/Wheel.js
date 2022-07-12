@@ -12,6 +12,23 @@ const data = [
   { id: 8, option: 40 }
 ];
 
+async getUsersData() {
+  try {
+    const res = await axios.get("http://localhost:3000/users/usersrewards");
+    this.setState({
+      loading: false,
+      users: res.data.data.usersWithNextPayments,
+    });
+  } catch (error) {
+    this.setState({
+      loading: false,
+      users: [],
+      hasError: true,
+      errorMessage: "Ocurrió un error con el servidor",
+    });
+  }
+}
+
 export default () => {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
